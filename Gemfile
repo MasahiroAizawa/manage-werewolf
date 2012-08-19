@@ -18,6 +18,10 @@ gem 'therubyracer'
 # run sinatra for local
 gem 'shotgun'
 
+# coffeescript
+gem 'coffee-script'
+
+# for debug
 gem 'pry'
 gem 'pry-doc'
 

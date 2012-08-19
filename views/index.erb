@@ -4,24 +4,33 @@
     <title>人狼管理アプリ プロトタイプ <%= version %></title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/index.css">
+    <script src="/javascript/jquery.js"></script>
+    <script src="/javascript/wolf.js"></script>
   </head>
   <body>
     <div class="containe">
-    <h2>人狼管理アプリ プロトタイプ <%= version %></h2>
-    <ul>
-      <% @players.each do |player| %>
-        <li>
-          <%= player.no %>:<%= player.name %><br>
-          <img src="/images/<%= player.file %>" width="128" height="128">
-        </li>
-      <% end %>
-    </ul>
+      <h2>人狼管理アプリ プロトタイプ <%= version %></h2>
+      <ul>
+        <% @players.each do |player| %>
+          <li id="player-<%= player.no %>" class="player">
+            <%= player.no %>:<%= player.name %><br>
+            <img src="/images/<%= player.file %>" width="128" height="128">
+          </li>
+        <% end %>
+      </ul>
 
-    <footer>
-      <h4>images from <a href="http://www.wanpug.com" target="_blank">http://www.wanpug.com</a>
-        created by <a href="http://www.facebook.com/aizawa.masahiro" target="_blank">masahiro aizawa</a></h4>
-    </footer>
-  </div>
-  </body>
-</html>
+      <footer>
+        <h4>images from <a href="http://www.wanpug.com" target="_blank">http://www.wanpug.com</a>
+          created by <a href="http://www.facebook.com/aizawa.masahiro" target="_blank">masahiro aizawa</a></h4>
+      </footer>
+    </div>
+    <script>
+      $(function(){
+          var w = new ManageWolf();
+          w.setImageZoomEvent();
+          }
+       )()
+</script>
+   </body>
+ </html>
 

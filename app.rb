@@ -4,6 +4,7 @@ require 'sinatra'
 
 require 'erb'
 require 'less'
+require 'coffee-script'
 
 # for debug
 require 'pry'
@@ -23,6 +24,10 @@ end
 get '/images/*.*' do |file, ext|
   content_type ext
   send_file "/images/#{file}.#{ext}"
+end
+
+get '/javascript/wolf.js' do
+  coffee :wolf
 end
 
 helpers do
