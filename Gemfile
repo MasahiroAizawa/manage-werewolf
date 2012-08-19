@@ -11,8 +11,13 @@ gem 'heroku'
 # controller
 gem 'sinatra'
 
+# views
+gem 'less'
+gem 'therubyracer'
+
 # run sinatra for local
-group :deveopment do
-  gem 'shotgun'
-end
+gem 'shotgun'
+
+gem 'pry'
+gem 'pry-doc'
 
