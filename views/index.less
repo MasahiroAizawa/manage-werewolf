@@ -43,16 +43,49 @@ div#modal {
   height: 350px;
   padding: 20px;
   padding-top: 10px;
+  z-index: 10;
+
+  div.modal-name {
+    color: #9038a3;
+    position: relative;
+
+    span.player-name {
+      width: 80%;
+      font-weight: bold;
+    }
+
+    span.close {
+      color: black;
+      text-align: center;
+      font-size: x-large;
+      background: #c9c9c9;
+      margin: 0px;
+      padding: 0px;
+      width: 30px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: pointer;
+    }
+  }
 
   div.modal-image {
     float: left;
   }
 
   div.modal-sidebar {
-    div.modal-name {
-      color: #9038a3;
-    }
   }
+}
+
+div.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.4;
+  z-index: 9;
+  background: white;
 }
 
 .hide {
