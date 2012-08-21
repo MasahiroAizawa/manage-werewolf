@@ -8,12 +8,12 @@
     <script src="/javascript/wolf.js"></script>
   </head>
   <body>
-    <div class="containe">
+    <div class="container">
       <h2>人狼管理アプリ プロトタイプ <%= version %></h2>
       <ul>
         <% @players.each do |player| %>
           <li id="player-<%= player.no %>" class="player">
-            <%= player.no %>:<%= player.name %><br>
+            <span><%= player.no %>:<%= player.name %><br></span>
             <img src="/images/<%= player.file %>" width="128" height="128">
           </li>
         <% end %>
@@ -24,13 +24,29 @@
           created by <a href="http://www.facebook.com/aizawa.masahiro" target="_blank">masahiro aizawa</a></h4>
       </footer>
     </div>
+    <div id="modal" class="hide">
+      <div>
+        <div class="modal-image">
+          <img src="/images/bear.gif" width="300" height="300">
+        </div>
+        <div class="modal-sidebar">
+          <div class="modal-name">
+            <h3>01:くまー</h3>
+          </div>
+          <div>
+            ここにメニュー表示？<br>
+            名前の表示のみ？<br>
+          </div>
+        </div>
+      </div>
+    </div>
     <script>
       $(function(){
           var w = new ManageWolf();
           w.setImageZoomEvent();
           }
        )()
-</script>
-   </body>
- </html>
+      </script>
+    </body>
+  </html>
 

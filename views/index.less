@@ -1,5 +1,6 @@
 @bg-color: #000000;
 @font-color: #ff1414;
+@modal-bg-color: #dddddd;
 
 html {
   height: 100%;
@@ -33,3 +34,27 @@ footer{
   clear: both;
 }
 
+div#modal {
+  position: absolute;
+  background: @modal-bg-color;
+  top: 150px;
+  left: 200px;
+  width: 500px;
+  height: 350px;
+  padding: 20px;
+  padding-top: 10px;
+
+  div.modal-image {
+    float: left;
+  }
+
+  div.modal-sidebar {
+    div.modal-name {
+      color: #9038a3;
+    }
+  }
+}
+
+.hide {
+  display: none;
+}

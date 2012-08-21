@@ -4,15 +4,18 @@ class @ManageWolf
   setImageZoomEvent: ->
     $("li").bind "click", @zoomImage
 
-  zoomImage: ->
+  zoomImage: (event) ->
     url = $(this).find("img").attr("src")
+    name = $(this).find("span").text()
 
-    # TODO: create modal html
-    add_html = "<img src=\"#{url}\">"
+    setModalImage = (name, url) ->
+      modal = $("#modal")
+      modal.find("div.modal-name h3").text(name)
+      modal.find("div.modal-image img").attr("src", url)
+      modal
 
-    # TODO: show modal html
+    modal = setModalImage(name, url)
+    modal.removeClass "hide"
 
-    # test code
-    $("ul").before(add_html)
 
 
