@@ -10,6 +10,8 @@ class @ManageWolf
   setKillButtons: ->
     $("button.kill-button").bind "click", @killPlayer
     $("button.kill-button").bind "click", @hidePhoto
+    $("button#kill-cancel").bind "click", @killCancel
+    $("button#kill-cancel").bind "click", @hidePhoto
 
   setMask: ->
     $("#mask").bind "click", @hidePhoto
@@ -46,8 +48,15 @@ class @ManageWolf
 
     player_list = $("li##{id}")
     player_list.addClass "kill-player"
-    player_list.remove("img.kill-image")
+    player_list.find("img").remove("img.kill-image")
     player_list.append(kill_image)
+
+  killCancel: ->
+    id = $("input#modal-id").attr("value")
+
+    player_list = $("li##{id}")
+    player_list.find("img").remove("img.kill-image")
+    player_list.removeClass "kill-player"
 
   hidePhoto: ->
     $("#mask").addClass "hide"
