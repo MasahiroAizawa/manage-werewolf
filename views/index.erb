@@ -10,7 +10,7 @@
   <body>
     <div class="container">
       <h2>人狼管理アプリ プロトタイプ <%= version %></h2>
-      <ul>
+      <ul class="player-list">
         <% @players.each do |player| %>
           <li id="player-<%= player.no %>" class="player">
             <span><%= player.no %>:<%= player.name %><br></span>
@@ -18,6 +18,14 @@
           </li>
         <% end %>
       </ul>
+      <div class="sidebar">
+        <div class="date-title">
+          <span class="day-number">　１</span>日目
+          <span class="date-operation">
+            <span class="date-up">▲</span><span class="date-down">▼</span>
+          </span>
+        </div>
+      </div>
 
       <footer>
         <h4>images from <a href="http://www.wanpug.com" target="_blank">http://www.wanpug.com</a>
