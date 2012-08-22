@@ -2,14 +2,14 @@ class @ManageWolf
   constructor: ->
     @setImageZoomEvent()
     @setMask()
-    @setKillButton()
+    @setKillButtons()
 
   setImageZoomEvent: ->
     $("li").bind "click", @zoomImage
 
-  setKillButton: ->
-    $("button#kill-button").bind "click", @killPlayer
-    $("button#kill-button").bind "click", @hidePhoto
+  setKillButtons: ->
+    $("button.kill-button").bind "click", @killPlayer
+    $("button.kill-button").bind "click", @hidePhoto
 
   setMask: ->
     $("#mask").bind "click", @hidePhoto
@@ -32,12 +32,27 @@ class @ManageWolf
     $("#mask").removeClass "hide"
 
   killPlayer: ->
+    createKillImage = (kill_class, file) ->
+      $("<img class=\"kill-image #{kill_class}\" src=\"/images/#{file}\" width=\"128\" height=\"128\">")
+
     id = $("input#modal-id").attr("value")
-    $("li##{id} span").addClass "kill"
+    # this = kill-button
+    kill_button_id = $(this).attr("id")
+    kill_image = switch kill_button_id
+      when "day-kill-button"
+        createKillImage("day-kill", "day-kill.png")
+      when "night-kill-button"
+        createKillImage("night-kill", "night-kill.png")
+
+    player_list = $("li##{id}")
+    player_list.addClass "kill-player"
+    player_list.remove("img.kill-image")
+    player_list.append(kill_image)
 
   hidePhoto: ->
     $("#mask").addClass "hide"
     $("#modal").addClass "hide"
+
 
 
 

@@ -24,6 +24,7 @@
           created by <a href="http://www.facebook.com/aizawa.masahiro" target="_blank">masahiro aizawa</a></h4>
       </footer>
     </div>
+
     <div id="mask" class="mask hide"></div>
     <div id="modal" class="hide">
       <div>
@@ -31,16 +32,17 @@
           <span class="player-name">01:くまー</span>
           <span class="close">×</span>
         </div>
+        <div class="left-menu">
+          <button id="day-kill-button" class="kill-button" type="button">昼死んだ</button><br>
+          <button id="night-kill-button" class="kill-button" type="button">夜死んだ</button>
+        </div>
         <div class="modal-image">
           <img src="/images/bear.gif" width="300" height="300">
+          <input id="modal-id" type="hidden" value"">
         </div>
-        <div class="modal-sidebar">
-          <div>
-            ここにメニュー表示？<br>
-            名前の表示のみ？<br>
-            <button id="kill-button" type="button">この人を殺す</button>
-            <input id="modal-id" type="hidden" value"">
-          </div>
+        <div class="right-menu">
+          <button id="vote" type="button">１票</button><br>
+          <button id="vote-cancel" type="button">票取消し</button>
         </div>
       </div>
     </div>

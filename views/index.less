@@ -2,6 +2,11 @@
 @font-color: #ff1414;
 @modal-bg-color: #dddddd;
 
+@list-z-index: 5;
+@kill-z-index: 6;
+@mask-z-index: 9;
+@modal-z-index: 10;
+
 html {
   height: 100%;
   body {
@@ -21,14 +26,23 @@ html {
 
 ul {
   li {
+    position: relative;
     list-style-type: none;
     float: left;
+
     img {
       margin: 10px;
       margin-top: 20px;
       margin-bottom: 30px;
+      z-index: @list-z-index;
     }
   }
+}
+
+button {
+  font-size: large;
+  margin-top: 20px;
+  margin-bottom: 5px;
 }
 footer{
   clear: both;
@@ -39,11 +53,11 @@ div#modal {
   background: @modal-bg-color;
   top: 150px;
   left: 200px;
-  width: 500px;
+  width: 540px;
   height: 350px;
   padding: 20px;
   padding-top: 10px;
-  z-index: 10;
+  z-index: @modal-z-index;
 
   div.modal-name {
     color: #9038a3;
@@ -52,6 +66,7 @@ div#modal {
     span.player-name {
       width: 80%;
       font-weight: bold;
+      font-size: xx-large;
     }
 
     span.close {
@@ -69,16 +84,22 @@ div#modal {
     }
   }
 
-  div.modal-image {
+  div.left-menu {
     float: left;
   }
 
-  div.modal-sidebar {
-    button#kill-button {
-      position: absolute;
-      bottom: 30px;
-      text-align: center;
+  div.modal-image {
+    float: left;
+
+    img {
+      border: solid 1px;
+      border-color: black;
+      margin-left: 20px;
+      margin-right: 20px;
     }
+  }
+
+  div.right-menu {
   }
 }
 
@@ -89,7 +110,7 @@ div.mask {
   height: 100%;
   width: 100%;
   opacity: 0.4;
-  z-index: 9;
+  z-index: @mask-z-index;
   background: white;
 }
 
@@ -97,6 +118,20 @@ div.mask {
   display: none;
 }
 
-.kill {
- text-decoration: line-through;
+li.kill-player {
+  text-decoration: line-through;
+
+  img.kill-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+img.day-kill {
+  z-index: @kill-z-index;
+}
+
+img.night-kill {
+  z-index: @kill-z-index;
 }
