@@ -56,11 +56,15 @@ class @ManageWolf
     player_list.find("img").remove("img.kill-image")
     player_list.append(kill_image)
 
+    killed_day = "<span class=\"killed-day\">#{$("span.day-number").text()}日目 死亡　</span>"
+    kill_image.after killed_day
+
   killCancel: ->
     id = $("input#modal-id").attr("value")
 
     player_list = $("li##{id}")
     player_list.find("img").remove("img.kill-image")
+    player_list.find("span.killed-day").remove("span.killed-day")
     player_list.removeClass "kill-player"
 
   dateUp: ->
