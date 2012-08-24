@@ -73,8 +73,21 @@ class @ManageWolf
     player_list.removeClass "kill-player"
 
   voteToPlayer: ->
+    createVoteNumberHtml = (number ->
+      if number.toString().length is 1
+        number = " " + number.toString()
+      "<p class=\"\">#{number}</p>"
+
     vote-number = $("#modal input.vote-number").val()
+
+    if not(isNumber(vote-number)
+      alert("プレイヤーへの投票数を入力してください")
+      return false
+
+
+
     # TODO: write code.
+
 
 
   dateUp: ->
@@ -94,7 +107,7 @@ class @ManageWolf
     $("#mask").addClass "hide"
     $("#modal").addClass "hide"
 
-validateNumber = (value) ->
+isNumber = (value) ->
   # TODO: Implement validation
   true
 
