@@ -1,5 +1,10 @@
 class @ManageWolf
   constructor: ->
+    @member_count = $("ul.player-list li.player").size()
+    @dead_count = 0
+
+    @onloadSettings()
+
     @setImageZoomEvent()
     @setResetVote()
     @setVoteResult()
@@ -14,6 +19,9 @@ class @ManageWolf
     @setMask()
 
     @mask_remain = false
+
+  onloadSettings: ->
+    @reloadMemberCount()
 
   setImageZoomEvent: ->
     $("li").bind "click", @zoomImage
@@ -44,6 +52,15 @@ class @ManageWolf
 
   setButtons: ->
     $("#modal button").bind "click", @hidePhoto
+    $("#modal button").bind "click", @reloadMemberCount
+    $("span.date-up").bind "click", @reloadMemberCount
+    $("span.date-down").bind "click", @reloadMemberCount
+
+  reloadMemberCount: =>
+    $("span#total").text(convertHalfToAll(@member_count))
+    @dead_count = $("ul.player-list li.player img.kill-image").size()
+    $("span#dead").text(convertHalfToAll(@dead_count))
+    $("span#rest").text(convertHalfToAll(@member_count - @dead_count))
 
   zoomImage: (event) ->
     url = $(this).find("img").attr("src")
