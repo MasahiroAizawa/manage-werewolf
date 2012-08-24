@@ -1,17 +1,28 @@
 class @ManageWolf
   constructor: ->
     @setImageZoomEvent()
+    @setResetVote()
+    @setVoteResult()
+
     @setKillButtons()
     @setDateOperators()
     @setVote()
-    @setMask()
+    @setCancelVote()
+
     # NOTE: モーダルを消す動作は最後に動作させる
     @setButtons()
+    @setMask()
 
     @mask_remain = false
 
   setImageZoomEvent: ->
     $("li").bind "click", @zoomImage
+
+  setVoteResult: ->
+    $("div.sidebar-operations button#vote-result").bind "click", @voteResult
+
+  setResetVote: ->
+    $("div.sidebar-operations button#reset-vote").bind "click", @resetVote
 
   setKillButtons: ->
     $("button.kill-button").bind "click", @killPlayer
@@ -23,6 +34,9 @@ class @ManageWolf
 
   setVote: ->
     $("#modal button#vote").bind "click", @voteToPlayer
+
+  setCancelVote: ->
+    $("#modal button#vote-cancel").bind "click", @cancelVote
 
   setMask: ->
     $("#mask").bind "click", @hidePhoto
@@ -98,6 +112,24 @@ class @ManageWolf
     player_list.append(vote_number_html)
 
     $("#modal input.vote-number").val("0")
+
+  cancelVote: ->
+    player_id = $("input#modal-id").attr("value")
+    $("li##{player_id} p.player-vote").remove("p.player-vote")
+
+  voteResult: ->
+    vote_list = $("ul.player-list p.player-vote")
+    if vote_list.size() is 0
+      alert("投票してから押してね")
+      return false
+
+    before_vote = $(vote_list[0])
+    for vote in vote_list when parseInt($(vote).text()) > parseInt(before_vote.text())
+      before_vote = $(vote)
+    before_vote.parent("li.player").trigger "click"
+
+  resetVote: ->
+    $("ul.player-list li.player p").remove("p.player-vote")
 
   dateUp: ->
     day = $("span.day-number").text()
