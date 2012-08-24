@@ -24,7 +24,7 @@ class @ManageWolf
     @reloadMemberCount()
 
   setImageZoomEvent: ->
-    $("li").bind "click", @zoomImage
+    $("li.player").bind "click", @zoomImage
 
   setVoteResult: ->
     $("div.sidebar-operations button#vote-result").bind "click", @voteResult
