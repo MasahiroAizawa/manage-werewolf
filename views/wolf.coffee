@@ -3,6 +3,7 @@ class @ManageWolf
     @setImageZoomEvent()
     @setKillButtons()
     @setDateOperators()
+    @setVote()
     @setMask()
 
   setImageZoomEvent: ->
@@ -17,6 +18,10 @@ class @ManageWolf
   setDateOperators: ->
     $("span.date-up").bind "click", @dateUp
     $("span.date-down").bind "click", @dateDown
+
+  setVote: ->
+    $("#modal button#vote").bind "click", @voteToPlayer
+    $("#modal button#vote").bind "click", @hidePhoto
 
   setMask: ->
     $("#mask").bind "click", @hidePhoto
@@ -67,6 +72,11 @@ class @ManageWolf
     player_list.find("span.killed-day").remove("span.killed-day")
     player_list.removeClass "kill-player"
 
+  voteToPlayer: ->
+    vote-number = $("#modal input.vote-number").val()
+    # TODO: write code.
+
+
   dateUp: ->
     day = $("span.day-number").text()
     day_number = parseInt convertAllToHalf(day)
@@ -83,6 +93,11 @@ class @ManageWolf
   hidePhoto: ->
     $("#mask").addClass "hide"
     $("#modal").addClass "hide"
+
+validateNumber = (value) ->
+  # TODO: Implement validation
+  true
+
 
 convertAllToHalf = (number_string) ->
   number_string = number_string.replace(/１/g, "1")
