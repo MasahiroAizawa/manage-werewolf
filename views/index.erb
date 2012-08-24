@@ -9,7 +9,8 @@
   </head>
   <body>
     <div class="container">
-      <h2>人狼管理アプリ プロトタイプ <%= version %></h2>
+      <h2 class="page-title">人狼管理アプリ プロトタイプ <%= version %></h2>
+      <h3 class="survive-player">１０人中、　５人が死亡　残り　５人</h3>
       <ul class="player-list">
         <% @players.each do |player| %>
           <li id="player-<%= player.no %>" class="player">
