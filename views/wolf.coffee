@@ -5,15 +5,17 @@ class @ManageWolf
     @setDateOperators()
     @setVote()
     @setMask()
+    # NOTE: モーダルを消す動作は最後に動作させる
+    @setButtons()
+
+    @mask_remain = false
 
   setImageZoomEvent: ->
     $("li").bind "click", @zoomImage
 
   setKillButtons: ->
     $("button.kill-button").bind "click", @killPlayer
-    $("button.kill-button").bind "click", @hidePhoto
     $("button#kill-cancel").bind "click", @killCancel
-    $("button#kill-cancel").bind "click", @hidePhoto
 
   setDateOperators: ->
     $("span.date-up").bind "click", @dateUp
@@ -21,11 +23,13 @@ class @ManageWolf
 
   setVote: ->
     $("#modal button#vote").bind "click", @voteToPlayer
-    $("#modal button#vote").bind "click", @hidePhoto
 
   setMask: ->
     $("#mask").bind "click", @hidePhoto
     $("#modal div.modal-name span.close").bind "click", @hidePhoto
+
+  setButtons: ->
+    $("#modal button").bind "click", @hidePhoto
 
   zoomImage: (event) ->
     url = $(this).find("img").attr("src")
@@ -48,7 +52,7 @@ class @ManageWolf
       $("<img class=\"kill-image #{kill_class}\" src=\"/images/#{file}\" width=\"128\" height=\"128\">")
 
     id = $("input#modal-id").attr("value")
-    # this = kill-button
+    # NOTE: this = kill-button
     kill_button_id = $(this).attr("id")
     kill_image = switch kill_button_id
       when "day-kill-button"
@@ -65,30 +69,35 @@ class @ManageWolf
     kill_image.after killed_day
 
   killCancel: ->
-    id = $("input#modal-id").attr("value")
+    player_id = $("input#modal-id").attr("value")
 
-    player_list = $("li##{id}")
+    player_list = $("li##{player_id}")
     player_list.find("img").remove("img.kill-image")
     player_list.find("span.killed-day").remove("span.killed-day")
     player_list.removeClass "kill-player"
 
-  voteToPlayer: ->
-    createVoteNumberHtml = (number ->
+  voteToPlayer: =>
+    createVoteNumberHtml = (number) ->
       if number.toString().length is 1
-        number = " " + number.toString()
-      "<p class=\"\">#{number}</p>"
+        number = "&nbsp;" + number.toString()
+      "<p class=\"player-vote\">#{number}</p>"
 
-    vote-number = $("#modal input.vote-number").val()
+    vote_number = $("#modal input.vote-number").val()
 
-    if not(isNumber(vote-number)
+    if not(isNumber(vote_number)) or parseInt(vote_number) is 0
       alert("プレイヤーへの投票数を入力してください")
+      @mask_remain = true
       return false
+    @mask_remain = false
 
+    vote_number_html = createVoteNumberHtml(vote_number)
 
+    player_id = $("input#modal-id").attr("value")
+    player_list = $("li##{player_id}")
+    player_list.remove("p.player-vote")
+    player_list.append(vote_number_html)
 
-    # TODO: write code.
-
-
+    $("#modal input.vote-number").val("0")
 
   dateUp: ->
     day = $("span.day-number").text()
@@ -103,7 +112,11 @@ class @ManageWolf
     day_number--
     $("span.day-number").text convertHalfToAll(day_number)
 
-  hidePhoto: ->
+  hidePhoto: =>
+    if @mask_remain
+      @mask_remain = false
+      return false
+
     $("#mask").addClass "hide"
     $("#modal").addClass "hide"
 
