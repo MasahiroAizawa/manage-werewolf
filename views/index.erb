@@ -13,20 +13,31 @@
       <h3 class="survive-player">
         <span id="total">１０</span>人中、<span id="dead">　５</span>人が死亡　残り<span id="rest">　５</span>人
       </h3>
-      <ul class="player-list">
-        <% @players.each do |player| %>
-          <li id="player-<%= player.no %>" class="player">
-            <span><%= player.no %>:<%= player.name %><br></span>
-            <img src="/images/<%= player.file %>" width="128" height="128">
-          </li>
-        <% end %>
-      </ul>
+      <div class="player-list">
+        <ul class="player-list">
+          <% @players.each do |player| %>
+            <li id="player-<%= player.no %>" class="player">
+              <span><%= player.no %>:<%= player.name %><br></span>
+              <img src="/images/<%= player.file %>" width="128" height="128">
+            </li>
+          <% end %>
+        </ul>
+      </div>
       <div class="sidebar">
         <div class="date-title">
           <span class="day-number">　１</span>日目
           <span class="date-operation">
             <span class="date-up">▲</span><span class="date-down">▼</span>
           </span>
+        </div>
+        <div class="role-list">
+          <h4 class="role-title">
+            役職一覧
+          </h4>
+          <ul class="role-list">
+            <li class="role">人狼</li>
+            <li class="role">村人</li>
+          </ul>
         </div>
         <div class="sidebar-operations">
           <ul class="operation-buttons">
@@ -36,43 +47,43 @@
             <li class="operation-button">
               <button id="reset-vote" class="reset-vote">投票リセット</button>
             </li>
+          </div>
         </div>
+
+        <footer>
+          <h4>images from <a href="http://www.wanpug.com" target="_blank">http://www.wanpug.com</a>
+            created by <a href="http://www.facebook.com/aizawa.masahiro" target="_blank">masahiro aizawa</a></h4>
+        </footer>
       </div>
 
-      <footer>
-        <h4>images from <a href="http://www.wanpug.com" target="_blank">http://www.wanpug.com</a>
-          created by <a href="http://www.facebook.com/aizawa.masahiro" target="_blank">masahiro aizawa</a></h4>
-      </footer>
-    </div>
-
-    <div id="mask" class="mask hide"></div>
-    <div id="modal" class="hide">
-      <div>
-        <div class="modal-name">
-          <span class="player-name">01:くまー</span>
-          <span class="close">×</span>
-        </div>
-        <div class="left-menu">
-          <button id="day-kill-button" class="kill-button" type="button">昼死んだ</button><br>
-          <button id="night-kill-button" class="kill-button" type="button">夜死んだ</button><br>
-          <button id="kill-cancel" type="button">やっぱり死んでない</button>
-        </div>
-        <div class="modal-image">
-          <img src="/images/bear.gif" width="300" height="300">
-          <input id="modal-id" type="hidden" value"">
-        </div>
-        <div class="right-menu">
-          <input class="vote-number" type="number" min="0" value="0"><button id="vote" type="button">投票</button><br>
-          <button id="vote-cancel" type="button">票取消し</button>
+      <div id="mask" class="mask hide"></div>
+      <div id="modal" class="hide">
+        <div>
+          <div class="modal-name">
+            <span class="player-name">01:くまー</span>
+            <span class="close">×</span>
+          </div>
+          <div class="left-menu">
+            <button id="day-kill-button" class="kill-button" type="button">昼死んだ</button><br>
+            <button id="night-kill-button" class="kill-button" type="button">夜死んだ</button><br>
+            <button id="kill-cancel" type="button">やっぱり死んでない</button>
+          </div>
+          <div class="modal-image">
+            <img src="/images/bear.gif" width="300" height="300">
+            <input id="modal-id" type="hidden" value"">
+          </div>
+          <div class="right-menu">
+            <input class="vote-number" type="number" min="0" value="0"><button id="vote" type="button">投票</button><br>
+            <button id="vote-cancel" type="button">票取消し</button>
+          </div>
         </div>
       </div>
-    </div>
-    <script>
-      $(function(){
-          var w = new ManageWolf();
-        }
-       )()
-    </script>
-  </body>
-</html>
+      <script>
+        $(function(){
+            var w = new ManageWolf();
+            }
+         )()
+        </script>
+      </body>
+    </html>
 
