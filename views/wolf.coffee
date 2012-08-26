@@ -14,6 +14,8 @@ class @ManageWolf
     @setVote()
     @setCancelVote()
 
+    @setAddRole()
+
     # NOTE: モーダルを消す動作は最後に動作させる
     @setButtons()
     @setMask()
@@ -45,6 +47,9 @@ class @ManageWolf
 
   setCancelVote: ->
     $("#modal button#vote-cancel").bind "click", @cancelVote
+
+  setAddRole: ->
+    $("button#add-role").bind "click", @addRole
 
   setMask: ->
     $("#mask").bind "click", @hidePhoto
@@ -161,6 +166,14 @@ class @ManageWolf
     day_number--
     $("span.day-number").text convertHalfToAll(day_number)
 
+  addRole: ->
+    role_name = prompt("役職名")
+    return null unless role_name?
+
+    role_html = "<li class=\"role\">#{h role_name}</li>"
+    $("ul.role-list li.add-role").before(role_html)
+
+
   hidePhoto: =>
     if @mask_remain
       @mask_remain = false
@@ -205,4 +218,5 @@ convertHalfToAll = (number) ->
 
   number_string
 
-
+h = (value) ->
+  $("<div/>").text(value).html()
