@@ -15,6 +15,7 @@ class @ManageWolf
     @setCancelVote()
 
     @setAddRole()
+    @setEditRole()
 
     # NOTE: モーダルを消す動作は最後に動作させる
     @setButtons()
@@ -50,6 +51,11 @@ class @ManageWolf
 
   setAddRole: ->
     $("button#add-role").bind "click", @addRole
+
+  setEditRole: ->
+    $("li.role label.edit-role").bind "click", @editRole
+    $("li.role label.remove-role").bind "click", @removeRole
+    $("li.role label.finish-edit").bind "click", @finishEdit
 
   setMask: ->
     $("#mask").bind "click", @hidePhoto
@@ -166,13 +172,64 @@ class @ManageWolf
     day_number--
     $("span.day-number").text convertHalfToAll(day_number)
 
-  addRole: ->
+  addRole: =>
+    createRoleHtml = (name) ->
+      "<li class=\"role\">\
+        <label class=\"role-name\">#{name}</label>\
+        <label class=\"role-number\">&nbsp;0</label>\
+        <label class=\"edit-role\">編集</label>\
+        <label class=\"remove-role\">削除</label>\
+        <input type=\"text\" class=\"role-name hide\">\
+        <input type=\"number\" class=\"role-number hide\" min=\"0\">\
+        <label class=\"finish-edit hide\">完了</label>\
+       </li>"
+
     role_name = prompt("役職名")
     return null unless role_name?
 
-    role_html = "<li class=\"role\">#{h role_name}</li>"
+    role_html = createRoleHtml(role_name)
     $("ul.role-list li.add-role").before(role_html)
 
+    $("li.role label.edit-role").unbind "click"
+    $("li.role label.remove-role").unbind "click"
+    $("li.role label.finish-edit").unbind "click"
+    $("li.role label.edit-role").bind "click", @editRole
+    $("li.role label.romove-role").bind "click", @removeRole
+    $("li.role label.finish-edit").bind "click", @finishEdit
+
+  editRole: ->
+    role_row = $(this).parent("li.role")
+    role_row.find(".hide").removeClass "hide"
+    role_row.find("label.role-name").addClass "hide"
+    role_row.find("label.role-number").addClass "hide"
+    role_row.find("label.edit-role").addClass "hide"
+    role_row.find("label.remove-role").addClass "hide"
+
+    role_name = role_row.find("label.role-name").text()
+    role_number = role_row.find("label.role-number").text()
+    role_number = parseInt(role_number)
+    role_row.find("input.role-name").val(role_name)
+    role_row.find("input.role-number").val(role_number)
+
+  removeRole: ->
+    $(this).parent("li.role").remove("li.role")
+
+  finishEdit: ->
+    role_row = $(this).parent("li.role")
+
+    role_number = role_row.find("input.role-number").val()
+    unless isNumber(role_number)
+      alert "人数は数字を入れてね。"
+      return false
+
+    if role_number.length is 1
+      role_number = "&nbsp;" + role_number.toString()
+    role_row.find("label.role-number").html(role_number)
+    role_row.find("label.role-name").text(role_row.find("input.role-name").val())
+
+    role_row.find(".hide").removeClass "hide"
+    role_row.find("input").addClass "hide"
+    role_row.find("label.finish-edit").addClass "hide"
 
   hidePhoto: =>
     if @mask_remain
@@ -183,8 +240,7 @@ class @ManageWolf
     $("#modal").addClass "hide"
 
 isNumber = (value) ->
-  # TODO: Implement validation
-  true
+  not(isNaN(value))
 
 
 convertAllToHalf = (number_string) ->

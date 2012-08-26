@@ -112,7 +112,35 @@ div.sidebar {
       padding-left: 10px;
     }
     ul.role-list {
-      li.role, li.add-role {
+      li.role {
+        list-style-type: none;
+        font-size: x-large;
+
+        label.role-name {
+        }
+        label.role-number {
+        }
+        label.edit-role, label.remove-role {
+          font-size: medium;
+          margin-left: 8px;
+          cursor: pointer;
+        }
+        input.role-name {
+          font-size: large;
+          width: 100px;
+        }
+        input.role-number {
+          font-size: large;
+          width: 40px;
+        }
+        label.finish-edit {
+          font-size: medium;
+          margin-left: 8px;
+          cursor: pointer;
+        }
+      }
+
+      li.add-role {
         list-style-type: none;
         font-size: x-large;
       }
