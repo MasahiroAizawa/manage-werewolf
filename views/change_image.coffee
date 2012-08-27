@@ -1,6 +1,5 @@
 window.changeImage = (image_id) ->
   target_image = document.getElementById(image_id)
-  target_image.dataset.src = target_image.src
 
   canvas = document.createElement("canvas")
   canvas_context = canvas.getContext("2d")
@@ -37,3 +36,4 @@ window.changeImage = (image_id) ->
 window.reviveImage = (image_id) ->
   target_image = document.getElementById(image_id)
   document.getElementById(image_id).src = target_image.dataset.src
+

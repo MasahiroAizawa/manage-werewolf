@@ -19,7 +19,7 @@
           <% @players.each do |player| %>
             <li id="player-<%= player.no %>" class="player">
               <span><%= player.no %>:<%= player.name %><br></span>
-              <img id="player-img-<%= player.no %>" src="/images/<%= player.file %>" width="128" height="128">
+              <img id="player-img-<%= player.no %>" src="/images/<%= player.file %>" data-src="/images/<%= player.file %>" width="128" height="128">
             </li>
           <% end %>
         </ul>
