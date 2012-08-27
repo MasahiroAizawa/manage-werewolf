@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/index.css">
     <script src="/javascript/jquery.js"></script>
     <script src="/javascript/wolf.js"></script>
+    <script src="/javascript/change_image.js"></script>
   </head>
   <body>
     <div class="container">
@@ -18,7 +19,7 @@
           <% @players.each do |player| %>
             <li id="player-<%= player.no %>" class="player">
               <span><%= player.no %>:<%= player.name %><br></span>
-              <img src="/images/<%= player.file %>" width="128" height="128">
+              <img id="player-img-<%= player.no %>" src="/images/<%= player.file %>" width="128" height="128">
             </li>
           <% end %>
         </ul>
@@ -99,9 +100,9 @@
       <script>
         $(function(){
             var w = new ManageWolf();
-            }
-         )()
-        </script>
-      </body>
-    </html>
+          }
+         )
+      </script>
+    </body>
+  </html>
 

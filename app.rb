@@ -9,7 +9,7 @@ require 'coffee-script'
 # for debug
 require 'pry'
 
-VERSION_NUMBER = 0.4
+VERSION_NUMBER = 0.41
 
 get '/' do
   @players = Player.create_players
@@ -28,6 +28,10 @@ end
 
 get '/javascript/wolf.js' do
   coffee :wolf
+end
+
+get '/javascript/change_image.js' do
+  coffee :change_image
 end
 
 helpers do
