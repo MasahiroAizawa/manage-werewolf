@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>人狼管理アプリ プロトタイプ <%= version %></title>
+    <title>人狼管理アプリ <%= version %></title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/index.css">
     <script src="/javascript/jquery.js"></script>
@@ -64,6 +64,10 @@
             <li class="operation-button">
               <button id="reset-vote" class="reset-vote">投票リセット</button>
             </li>
+            <li class="operation-button">
+              <button id="manage-player" class="manage-player">メンバー管理</button>
+              <button id="manage-end" class="manage-end hide">メンバー確定</button>
+            </li>
           </div>
         </div>
 
@@ -96,6 +100,10 @@
           </div>
         </div>
       </div>
+
+      <div id="manage-modal" class="hide">
+      </div>
+
       <script>
         $(function(){
             var w = new ManageWolf();

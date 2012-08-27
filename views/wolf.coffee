@@ -1,3 +1,5 @@
+manage_mode = false
+
 class @ManageWolf
   constructor: ->
     @member_count = $("ul.player-list li.player").size()
@@ -6,8 +8,9 @@ class @ManageWolf
     @onloadSettings()
 
     @setImageZoomEvent()
-    @setResetVote()
     @setVoteResult()
+    @setResetVote()
+    @setManagePlayer()
 
     @setKillButtons()
     @setDateOperators()
@@ -28,12 +31,17 @@ class @ManageWolf
 
   setImageZoomEvent: ->
     $("li.player").bind "click", @zoomImage
+    $("li.player").bind "click", @zoomManage
 
   setVoteResult: ->
     $("div.sidebar-operations button#vote-result").bind "click", @voteResult
 
   setResetVote: ->
     $("div.sidebar-operations button#reset-vote").bind "click", @resetVote
+
+  setManagePlayer: ->
+    $("div.sidebar-operations button#manage-player").bind "click", @managePlayer
+    $("div.sidebar-operations button#manage-end").bind "click", @managePlayerEnd
 
   setKillButtons: ->
     $("button.kill-button").bind "click", @killPlayer
@@ -74,6 +82,8 @@ class @ManageWolf
     $("span#rest").text(convertHalfToAll(@member_count - @dead_count))
 
   zoomImage: (event) ->
+    return false if manage_mode
+
     url = $(this).find("img").attr("src")
     name = $(this).find("span").text()
     id = $(this).attr("id")
@@ -158,6 +168,24 @@ class @ManageWolf
 
   resetVote: ->
     $("ul.player-list li.player p").remove("p.player-vote")
+
+  managePlayer: ->
+    manage_mode = true
+    $("div.sidebar-operations button#manage-player").addClass "hide"
+    $("div.sidebar-operations button#manage-end").removeClass "hide"
+
+    # TODO: add icon for add player
+
+  managePlayerEnd: ->
+    manage_mode = false
+    $("div.sidebar-operations button#manage-player").removeClass "hide"
+    $("div.sidebar-operations button#manage-end").addClass "hide"
+
+    # TODO: remove icon of add player
+
+  zoomManage: ->
+    # TODO: zoom player manage modal
+
 
   dateUp: ->
     day = $("span.day-number").text()
