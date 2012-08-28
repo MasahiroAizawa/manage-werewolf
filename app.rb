@@ -30,6 +30,10 @@ get '/javascript/wolf.js' do
   coffee :wolf
 end
 
+get '/javascript/change_image.js' do
+  coffee :change_image
+end
+
 helpers do
   def version
     "version #{VERSION_NUMBER}"

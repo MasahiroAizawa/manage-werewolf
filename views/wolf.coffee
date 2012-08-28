@@ -100,17 +100,20 @@ class @ManageWolf
     $("#mask").removeClass "hide"
 
   killPlayer: ->
-    createKillImage = (kill_class, file) ->
-      $("<img class=\"kill-image #{kill_class}\" src=\"/images/#{file}\" width=\"128\" height=\"128\">")
+    createKillImage = (kill_class, path) ->
+      $("<img class=\"kill-image #{kill_class}\" src=\"#{path}\" width=\"128\" height=\"128\">")
 
     id = $("input#modal-id").attr("value")
     # NOTE: this = kill-button
     kill_button_id = $(this).attr("id")
     kill_image = switch kill_button_id
       when "day-kill-button"
-        createKillImage("day-kill", "day-kill.png")
+        createKillImage("day-kill", "/images/day-kill.png")
       when "night-kill-button"
-        createKillImage("night-kill", "night-kill.png")
+        createKillImage("night-kill", "/images/night-kill.png")
+
+    # NOTE: player image change color to gray
+    window.changeImage(id.replace(/-/, "-img-"))
 
     player_list = $("li##{id}")
     player_list.addClass "kill-player"
@@ -122,6 +125,9 @@ class @ManageWolf
 
   killCancel: ->
     player_id = $("input#modal-id").attr("value")
+
+    # NOTE: player image restore original color
+    window.reviveImage(player_id.replace(/-/, "-img-"))
 
     player_list = $("li##{player_id}")
     player_list.find("img").remove("img.kill-image")
