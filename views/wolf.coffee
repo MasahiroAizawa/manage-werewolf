@@ -68,12 +68,16 @@ class @ManageWolf
   setMask: ->
     $("#mask").bind "click", @hidePhoto
     $("#modal div.modal-name span.close").bind "click", @hidePhoto
+    $("#manage-modal div.modal-name span.close").bind "click", @hidePhoto
 
   setButtons: ->
     $("#modal button").bind "click", @hidePhoto
     $("#modal button").bind "click", @reloadMemberCount
     $("span.date-up").bind "click", @reloadMemberCount
     $("span.date-down").bind "click", @reloadMemberCount
+
+  setManageModeEvent: ->
+    $("li.add-player").bind "click", @zoomManage
 
   reloadMemberCount: =>
     $("span#total").text(convertHalfToAll(@member_count))
@@ -172,10 +176,10 @@ class @ManageWolf
       before_vote = $(vote)
     before_vote.parent("li.player").trigger "click"
 
-  resetVote: ->
+  resetVote: =>
     $("ul.player-list li.player p").remove("p.player-vote")
 
-  managePlayer: ->
+  managePlayer: =>
     manage_mode = true
     $("div.sidebar-operations button#manage-player").addClass "hide"
     $("div.sidebar-operations button#manage-end").removeClass "hide"
@@ -190,6 +194,8 @@ class @ManageWolf
 
     $("ul.player-list").append(add_player_image)
 
+    @setManageModeEvent()
+
   managePlayerEnd: ->
     manage_mode = false
     $("div.sidebar-operations button#manage-player").removeClass "hide"
@@ -198,7 +204,11 @@ class @ManageWolf
     $("li.add-player").remove()
 
   zoomManage: ->
-    # TODO: zoom player manage modal
+    return null unless manage_mode
+
+    manage_modal = $("div#manage-modal")
+    manage_modal.removeClass "hide"
+    $("#mask").removeClass "hide"
 
 
   dateUp: ->
@@ -280,6 +290,7 @@ class @ManageWolf
 
     $("#mask").addClass "hide"
     $("#modal").addClass "hide"
+    $("#manage-modal").addClass "hide"
 
 isNumber = (value) ->
   not(isNaN(value))
