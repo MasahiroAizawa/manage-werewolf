@@ -26,12 +26,8 @@ get '/images/*.*' do |file, ext|
   send_file "/images/#{file}.#{ext}"
 end
 
-get '/javascript/wolf.js' do
-  coffee :wolf
-end
-
-get '/javascript/change_image.js' do
-  coffee :change_image
+get '/javascript/*.js' do |file|
+  coffee file.to_sym
 end
 
 helpers do

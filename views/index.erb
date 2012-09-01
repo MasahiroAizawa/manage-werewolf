@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/index.css">
     <script src="/javascript/jquery.js"></script>
+    <script src="/javascript/image_upload.js"></script>
     <script src="/javascript/wolf.js"></script>
     <script src="/javascript/change_image.js"></script>
   </head>
@@ -103,17 +104,25 @@
       </div>
 
       <div id="manage-modal" class="hide">
-        <div class="modal-name">
-          <span class="player-name">
-            <label class="player-name-label">クリックしてプレイヤー名を入力</label>
-            <input class="player-name-editor hide" type="text">
-          </span>
-          <span class="close">×</span>
-        </div>
-        <div class-"modal-image">
-          <input type="file" id="player-image-upload" >
-          <div class="uploaded-image">
-          ここに画像を放り込めるようにする
+        <div>
+          <div class="modal-name">
+            <span class="player-name">
+              <label class="player-name-label">クリックしてプレイヤー名を入力</label>
+              <input class="player-name-editor hide" type="text">
+            </span>
+            <span class="close">×</span>
+          </div>
+          <div class="modal-image">
+            <input type="file" id="player-image-upload" >
+            <div class="uploaded-image">
+              <div class="drag-drop-area">
+                ここに画像を放り込んでアップロード
+              </div>
+            </div>
+          </div>
+          <div class="image-right-menu">
+            <button id="save-player" type="button">保存（未実装）</button><br>
+            <button id="register-player" type="button">追加</button>
           </div>
         </div>
       </div>
@@ -121,6 +130,7 @@
       <script>
         $(function(){
             var w = new ManageWolf();
+            var i = new ImageUploader($("div#manage-modal input#player-image-upload"), $("div#manage-modal div.uploaded-image"))
           }
          )
       </script>
