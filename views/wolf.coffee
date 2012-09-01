@@ -42,6 +42,9 @@ class @ManageWolf
   setManagePlayer: ->
     $("div.sidebar-operations button#manage-player").bind "click", @managePlayer
     $("div.sidebar-operations button#manage-end").bind "click", @managePlayerEnd
+    $("div#manage-modal div.modal-name label.player-name-label").bind "click", @editPlayerName
+    $("div#manage-modal div.modal-name input.player-name-editor").bind "focusout", @completeEditPlayerName
+    $("div#manage-modal div.modal-name input.player-name-editor").bind "keydown", @keyDownCompleteEditPlayerCall
 
   setKillButtons: ->
     $("button.kill-button").bind "click", @killPlayer
@@ -210,6 +213,35 @@ class @ManageWolf
     manage_modal.removeClass "hide"
     $("#mask").removeClass "hide"
 
+  editPlayerName: ->
+    manage_modal = $("div#manage-modal")
+    label = manage_modal.find("label.player-name-label")
+    editor = manage_modal.find("input.player-name-editor")
+
+    editor.attr("value", label.text())
+
+    label.addClass "hide"
+    editor.removeClass "hide"
+    editor.focus()
+
+  keyDownCompleteEditPlayerCall: =>
+    if event.keyCode is 13
+      @completeEditPlayerName()
+
+  completeEditPlayerName: ->
+    manage_modal = $("div#manage-modal")
+    label = manage_modal.find("label.player-name-label")
+    editor = manage_modal.find("input.player-name-editor")
+
+    if editor.attr("value") is ""
+      alert "名前は必要です"
+      editor.focus()
+      return false
+
+    label.text(editor.attr("value"))
+
+    editor.addClass "hide"
+    label.removeClass "hide"
 
   dateUp: ->
     day = $("span.day-number").text()
