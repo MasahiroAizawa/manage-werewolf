@@ -81,6 +81,8 @@ class @ManageWolf
   setButtons: ->
     $("#modal button").bind "click", @hidePhoto
     $("#modal button").bind "click", @reloadMemberCount
+    $("#manage-modal button").bind "click", @reloadMemberCount
+    $("ul.operation-buttons button").bind "click", @reloadMemberCount
     $("span.date-up").bind "click", @reloadMemberCount
     $("span.date-down").bind "click", @reloadMemberCount
 
@@ -88,6 +90,7 @@ class @ManageWolf
     $("li.add-player").bind "click", @zoomManage
 
   reloadMemberCount: =>
+    @member_count = $("ul.player-list li.player").size()
     $("span#total").text(convertHalfToAll(@member_count))
     @dead_count = $("ul.player-list li.player img.kill-image").size()
     $("span#dead").text(convertHalfToAll(@dead_count))

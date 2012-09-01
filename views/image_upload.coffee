@@ -1,16 +1,33 @@
 class @ImageUploader
   # NOTE: both args are jQuery object only.
   constructor: (@file_input, @image_div) ->
-    @file_input.bind "change", @readFile
+    @file_input.bind "change", @onChange
+    @image_div.bind "dragover", @onCancel
+    @image_div.bind "dragenter", @onCancel
+    @image_div.bind "drop", @onDropFile
 
-  readFile: =>
+  onChange: =>
     file = event.target.files[0]
+    @readFile(file)
+
+  readFile: (file) ->
     file_type = file.type
 
     reader = new FileReader()
     reader.onload = @applyImageFile
 
     reader.readAsDataURL(file)
+
+  onCancel: ->
+    if event.preventDefault
+      event.preventDefault()
+    return false
+
+  onDropFile: =>
+    event.preventDefault()
+
+    file = event.dataTransfer.files[0]
+    @readFile(file)
 
   applyImageFile: =>
     data_url = event.target.result
