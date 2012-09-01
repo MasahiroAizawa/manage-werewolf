@@ -11,6 +11,7 @@ class @ManageWolf
     @setVoteResult()
     @setResetVote()
     @setManagePlayer()
+    @setAddNewPlayer()
 
     @setKillButtons()
     @setDateOperators()
@@ -30,6 +31,7 @@ class @ManageWolf
     @reloadMemberCount()
 
   setImageZoomEvent: ->
+    $("li.player").unbind "click"
     $("li.player").bind "click", @zoomImage
     $("li.player").bind "click", @zoomManage
 
@@ -45,6 +47,9 @@ class @ManageWolf
     $("div#manage-modal div.modal-name label.player-name-label").bind "click", @editPlayerName
     $("div#manage-modal div.modal-name input.player-name-editor").bind "focusout", @completeEditPlayerName
     $("div#manage-modal div.modal-name input.player-name-editor").bind "keydown", @keyDownCompleteEditPlayerCall
+
+  setAddNewPlayer: ->
+    $("div#manage-modal div.image-right-menu button#add-new-player").bind "click", @addNewPlayer
 
   setKillButtons: ->
     $("button.kill-button").bind "click", @killPlayer
@@ -242,6 +247,49 @@ class @ManageWolf
 
     editor.addClass "hide"
     label.removeClass "hide"
+
+  addNewPlayer: =>
+    createPlayerTag = (name, data) ->
+      player_no = generateNextNo()
+      "<li id=\"player-#{player_no}\" class=\"player\">\
+        <span>#{player_no}:#{name}<br></span>\
+        <img id=\"player-img-#{player_no}\" src=\"#{data}\" data-src=\"#{data}\" width=\"128px\" height=\"128px\">
+       </li>"
+
+    clearAddPlayerModal = ->
+      modal = $("div#manage-modal")
+      label = modal.find("div.modal-name label.player-name-label")
+      label.text("クリックしてプレイヤー名を入力")
+      image_area = modal.find("div.uploaded-image")
+      image_area.find("img").remove()
+      image_area.append(createDragDropArea())
+      file_input = modal.find("input#player-image-upload")
+      file_input.attr("value", "")
+
+    createDragDropArea = ->
+      "<div class=\"drag-drop-area\">\
+        ここに画像を放り込んでダウンロード\
+       </div>"
+
+    generateNextNo = ->
+      registered_player_count = $("ul.player-list li").size()
+      registered_player_count++
+
+
+    modal = $("div#manage-modal")
+    label = modal.find("div.modal-name label.player-name-label")
+    image_area = modal.find("div.uploaded-image")
+
+    player_name = label.text()
+    player_image = image_area.find("img").attr("src")
+    unless player_image?
+      return false
+
+    $("ul.player-list li.add-player").before(createPlayerTag(player_name, player_image))
+
+    clearAddPlayerModal()
+    @setImageZoomEvent()
+
 
   dateUp: ->
     day = $("span.day-number").text()

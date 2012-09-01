@@ -21,7 +21,6 @@ class @ImageUploader
 
     @image_div.append(image_tag)
 
-
 createFileImageTag = (data) ->
   "<img id=\"player-image\" width=\"256px\" height=\"256px\" src=\"#{data}\" >"
 
