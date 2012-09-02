@@ -2,8 +2,9 @@ class @ImageUploader
   # NOTE: both args are jQuery object only.
   constructor: (@file_input, @image_div) ->
     @file_input.bind "change", @onChange
-    @image_div.bind "dragover", @onCancel
-    @image_div.bind "dragenter", @onCancel
+    $("html").bind "dragover", @onCancel
+    $("html").bind "dragenter", @onCancel
+    $("html").bind "drop", @onCancel
     @image_div.bind "drop", @onDropFile
 
   onChange: =>

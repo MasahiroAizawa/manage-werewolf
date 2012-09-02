@@ -11,6 +11,7 @@ class @ManageWolf
     @setVoteResult()
     @setResetVote()
     @setManagePlayer()
+    @setManageModal()
     @setAddNewPlayer()
 
     @setKillButtons()
@@ -44,6 +45,8 @@ class @ManageWolf
   setManagePlayer: ->
     $("div.sidebar-operations button#manage-player").bind "click", @managePlayer
     $("div.sidebar-operations button#manage-end").bind "click", @managePlayerEnd
+
+  setManageModal: ->
     $("div#manage-modal div.modal-name label.player-name-label").bind "click", @editPlayerName
     $("div#manage-modal div.modal-name input.player-name-editor").bind "focusout", @completeEditPlayerName
     $("div#manage-modal div.modal-name input.player-name-editor").bind "keydown", @keyDownCompleteEditPlayerCall
@@ -196,10 +199,12 @@ class @ManageWolf
     $("div.sidebar-operations button#manage-end").removeClass "hide"
 
     createAddPlayerTag = ->
-      "<li class=\"add-player\">\
-        <span>プレイヤー追加<br></span>\
-        <img id=\"player-add\" width=\"128px\" height=\"128\" src=\"#{plusImage()}\">\
-       </li>"
+      """
+      <li class=\"add-player\">
+        <span>プレイヤー追加<br></span>
+        <img id=\"player-add\" width=\"128px\" height=\"128\" src=\"#{plusImage()}\">
+       </li>
+      """
 
     add_player_image = createAddPlayerTag()
 
@@ -217,7 +222,25 @@ class @ManageWolf
   zoomManage: ->
     return null unless manage_mode
 
+    clearAddPlayerModal()
+
     manage_modal = $("div#manage-modal")
+
+    player_id = $(this).attr("id")
+    if player_id?
+      name = $(this).find("span").text().replace(/^[^:]+:/, "")
+      manage_modal.find("label.player-name-label").text(name)
+      player_no = player_id.replace(/player-/, "")
+      manage_modal.find("input.edit-player-no").attr("value", player_no)
+
+      player_image = $(this).find("img")
+      player_image_src = player_image.data("src")
+      edit_image = createFileImageTag(player_image_src)
+      manage_modal.find("div.drag-drop-area").remove()
+      manage_modal.find("div.uploaded-image").append(edit_image)
+
+      manage_modal.find("button#add-new-player").text("変更")
+
     manage_modal.removeClass "hide"
     $("#mask").removeClass "hide"
 
@@ -254,25 +277,12 @@ class @ManageWolf
   addNewPlayer: =>
     createPlayerTag = (name, data) ->
       player_no = generateNextNo()
-      "<li id=\"player-#{player_no}\" class=\"player\">\
+      """
+      <li id=\"player-#{player_no}\" class=\"player\">\
         <span>#{player_no}:#{name}<br></span>\
         <img id=\"player-img-#{player_no}\" src=\"#{data}\" data-src=\"#{data}\" width=\"128px\" height=\"128px\">
-       </li>"
-
-    clearAddPlayerModal = ->
-      modal = $("div#manage-modal")
-      label = modal.find("div.modal-name label.player-name-label")
-      label.text("クリックしてプレイヤー名を入力")
-      image_area = modal.find("div.uploaded-image")
-      image_area.find("img").remove()
-      image_area.append(createDragDropArea())
-      file_input = modal.find("input#player-image-upload")
-      file_input.attr("value", "")
-
-    createDragDropArea = ->
-      "<div class=\"drag-drop-area\">\
-        ここに画像を放り込んでダウンロード\
-       </div>"
+      </li>
+      """
 
     generateNextNo = ->
       registered_player_count = $("ul.player-list li").size()
@@ -286,9 +296,19 @@ class @ManageWolf
     player_name = label.text()
     player_image = image_area.find("img").attr("src")
     unless player_image?
+      alert "画像が必要です"
       return false
 
-    $("ul.player-list li.add-player").before(createPlayerTag(player_name, player_image))
+    edit_player_no = modal.find("input.edit-player-no").attr("value")
+    if edit_player_no? and edit_player_no isnt ""
+      player_id = "player-#{edit_player_no}"
+      target_li = $("ul.player-list li##{player_id}")
+      target_li.find("span").html("#{edit_player_no}:#{h player_name}<br>")
+      target_li.find("img").attr("src", player_image)
+      target_li.find("img").data("src", player_image)
+      @hidePhoto()
+    else
+      $("ul.player-list li.add-player").before(createPlayerTag(player_name, player_image))
 
     clearAddPlayerModal()
     @setImageZoomEvent()
@@ -309,15 +329,17 @@ class @ManageWolf
 
   addRole: =>
     createRoleHtml = (name) ->
-      "<li class=\"role\">\
-        <label class=\"role-name\">#{name}</label>\
-        <label class=\"role-number\">&nbsp;0</label>\
-        <label class=\"edit-role\">編集</label>\
-        <label class=\"remove-role\">削除</label>\
-        <input type=\"text\" class=\"role-name hide\">\
-        <input type=\"number\" class=\"role-number hide\" min=\"0\">\
-        <label class=\"finish-edit hide\">完了</label>\
-       </li>"
+      """
+      <li class=\"role\">
+        <label class=\"role-name\">#{name}</label>
+        <label class=\"role-number\">&nbsp;0</label>
+        <label class=\"edit-role\">編集</label>
+        <label class=\"remove-role\">削除</label>
+        <input type=\"text\" class=\"role-name hide\">
+        <input type=\"number\" class=\"role-number hide\" min=\"0\">
+        <label class=\"finish-edit hide\">完了</label>
+      </li>
+      """
 
     role_name = prompt("役職名")
     return null unless role_name?
@@ -375,9 +397,31 @@ class @ManageWolf
     $("#modal").addClass "hide"
     $("#manage-modal").addClass "hide"
 
+clearAddPlayerModal = ->
+  modal = $("div#manage-modal")
+  label = modal.find("div.modal-name label.player-name-label")
+  label.text("クリックしてプレイヤー名を入力")
+  image_area = modal.find("div.uploaded-image")
+  image_area.find("img").remove()
+  image_area.find("div.drag-drop-area").remove()
+  image_area.append(createDragDropArea())
+  file_input = modal.find("input#player-image-upload")
+  file_input.attr("value", "")
+  modal.find("button#add-new-player").text("追加")
+  modal.find("input.edit-player-no").removeAttr("value")
+
+createDragDropArea = ->
+  """
+  <div class=\"drag-drop-area\">
+    ここに画像を放り込んでダウンロード
+   </div>
+  """
+
+createFileImageTag = (data) ->
+  "<img id=\"player-image\" width=\"256px\" height=\"256px\" src=\"#{data}\" >"
+
 isNumber = (value) ->
   not(isNaN(value))
-
 
 convertAllToHalf = (number_string) ->
   number_string = number_string.replace(/１/g, "1")
