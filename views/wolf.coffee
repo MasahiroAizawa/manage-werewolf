@@ -13,6 +13,7 @@ class @ManageWolf
     @setManagePlayer()
     @setManageModal()
     @setAddNewPlayer()
+    @setRemovePlayer()
 
     @setKillButtons()
     @setDateOperators()
@@ -53,6 +54,9 @@ class @ManageWolf
 
   setAddNewPlayer: ->
     $("div#manage-modal div.image-right-menu button#add-new-player").bind "click", @addNewPlayer
+
+  setRemovePlayer: ->
+    $("div#manage-modal div.image-right-menu button#remove-player").bind "click", @removePlayer
 
   setKillButtons: ->
     $("button.kill-button").bind "click", @killPlayer
@@ -219,6 +223,16 @@ class @ManageWolf
 
     $("li.add-player").remove()
 
+  removePlayer: =>
+    modal = $("div#manage-modal")
+    remove_player_no = modal.find("input.edit-player-no").attr("value")
+    player_id = "player-#{remove_player_no}"
+    $("ul.player-list li##{player_id}").remove()
+
+    clearAddPlayerModal()
+    reloadPlayerNo()
+    @hidePhoto()
+
   zoomManage: ->
     return null unless manage_mode
 
@@ -240,6 +254,7 @@ class @ManageWolf
       manage_modal.find("div.uploaded-image").append(edit_image)
 
       manage_modal.find("button#add-new-player").text("変更")
+      manage_modal.find("button#remove-player").removeClass "hide"
 
     manage_modal.removeClass "hide"
     $("#mask").removeClass "hide"
@@ -409,6 +424,7 @@ clearAddPlayerModal = ->
   file_input.attr("value", "")
   modal.find("button#add-new-player").text("追加")
   modal.find("input.edit-player-no").removeAttr("value")
+  modal.find("button#remove-player").addClass "hide"
 
 createDragDropArea = ->
   """
@@ -419,6 +435,24 @@ createDragDropArea = ->
 
 createFileImageTag = (data) ->
   "<img id=\"player-image\" width=\"256px\" height=\"256px\" src=\"#{data}\" >"
+
+reloadPlayerNo = ->
+  player_list = $("ul.player-list li.player")
+  player_no = 0
+  for player in player_list
+    player_no++
+
+    $player = $(player)
+    player_name = $player.find("span").text()
+
+    player_no_string = player_no.toString()
+    if player_no_string.length is 1
+      player_no_string = "0" + player_no_string
+
+    player_name = player_name.replace(/\d+:/, "#{player_no_string}:")
+    $player.find("span").html("#{h(player_name)}<br>")
+    $player.attr("id", "player-#{player_no_string}")
+    $player.find("img").attr("id", "player-img-#{player_no_string}")
 
 isNumber = (value) ->
   not(isNaN(value))
