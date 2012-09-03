@@ -304,9 +304,11 @@ class @ManageWolf
       """
 
     generateNextNo = ->
-      registered_player_count = $("ul.player-list li").size()
+      registered_player_count = $("ul.player-list li.player").size()
       registered_player_count++
-
+      if registered_player_count.toString().length is 1
+        registered_player_count = "0#{registered_player_count}"
+      registered_player_count
 
     modal = $("div#manage-modal")
     label = modal.find("div.modal-name label.player-name-label")

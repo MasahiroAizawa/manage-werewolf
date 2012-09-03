@@ -76,7 +76,7 @@ class Player
   end
 
   def self.create_players
-    %w[bear.gif bird.gif buchi.gif dack.gif fox.gif frog.gif kame.gif kuro.png panda.gif pen.gif piyo.gif sika.gif siro.gif usa.gif].map do |pic|
+    %w[bear.gif bird.gif buchi.gif dack.gif].map do |pic|
       Player.new(pic)
     end
   end
