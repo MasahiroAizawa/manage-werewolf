@@ -19,6 +19,7 @@ class @ManageWolf
     @setDateOperators()
     @setVote()
     @setCancelVote()
+    @setResetGame()
 
     @setAddRole()
     @setEditRole()
@@ -71,6 +72,9 @@ class @ManageWolf
 
   setCancelVote: ->
     $("#modal button#vote-cancel").bind "click", @cancelVote
+
+  setResetGame: ->
+    $("div.sidebar-operations li.operation-button button#game-reset").bind "click", @gameReset
 
   setAddRole: ->
     $("button#add-role").bind "click", @addRole
@@ -411,6 +415,15 @@ class @ManageWolf
     $("#mask").addClass "hide"
     $("#modal").addClass "hide"
     $("#manage-modal").addClass "hide"
+
+  gameReset: =>
+    $("ul.player-list li.player").find("img.kill-image").remove()
+    $("ul.player-list li.player").find("span.killed-day").remove()
+    $("ul.player-list li.player").removeClass "kill-player"
+    $("span.day-number").text convertHalfToAll(0)
+    $("ul.player-list li.player p.player-vote").remove()
+    for player_image in $("ul.player-list li.player img")
+      $(player_image).attr("src", $(player_image).data("src"))
 
 clearAddPlayerModal = ->
   modal = $("div#manage-modal")
