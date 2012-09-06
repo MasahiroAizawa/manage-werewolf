@@ -17,8 +17,12 @@ get '/' do
   erb :index
 end
 
-get '/index.css' do
-  less :index
+get '/load_image' do
+  erb :load_image
+end
+
+get '/*.css' do |file|
+  less file.to_sym
 end
 
 get '/images/*.*' do |file, ext|

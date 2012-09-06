@@ -88,6 +88,7 @@ class @ManageWolf
 
   setSavePlayer: ->
     $("div#manage-modal button#save-player").bind "click", @savePlayer
+    $("div#manage-modal button#load-player").bind "click", @loadPlayer
 
   setMask: ->
     $("#mask").bind "click", @hidePhoto
@@ -459,6 +460,26 @@ class @ManageWolf
     localStorage.setItem(player_name, player_image)
     manage_modal.find("div.image-right-menu").find("p").remove()
     manage_modal.find("button#save-player").after("<span style=\"color:red;\">登録しました。</span>")
+
+  loadPlayer: =>
+    player_data = window.showModalDialog('/load_image')
+
+    return unless player_data?
+
+    player_name = player_data["name"]
+    player_image = player_data["src"]
+
+    return if not(player_name? and player_image?)
+
+    img_tag = "<img id=\"player-image\" width=\"256px\" height=\"256px\" src=\"#{player_image}\" >"
+
+    manage_modal = $("div#manage-modal")
+    manage_modal.find("img#player-image").remove()
+    manage_modal.find("div.drag-drop-area").remove()
+
+    manage_modal.find("div.uploaded-image").append(img_tag)
+    manage_modal.find("span.player-name label.player-name-label").text(player_name)
+
 
   hidePhoto: =>
     if @mask_remain
