@@ -9,7 +9,7 @@ require 'coffee-script'
 # for debug
 require 'pry'
 
-VERSION_NUMBER = 0.51
+VERSION_NUMBER = 0.52
 
 get '/' do
   @players = Player.create_players
