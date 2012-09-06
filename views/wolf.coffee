@@ -178,7 +178,7 @@ class @ManageWolf
 
     player_id = $("input#modal-id").attr("value")
     player_list = $("li##{player_id}")
-    player_list.remove("p.player-vote")
+    player_list.find("p.player-vote").remove("p.player-vote")
     player_list.append(vote_number_html)
 
     $("#modal input.vote-number").val("0")
@@ -188,15 +188,39 @@ class @ManageWolf
     $("li##{player_id} p.player-vote").remove("p.player-vote")
 
   voteResult: ->
+    revoteAlert = ->
+      player_voted_list_tag = $("ul.player-list p.player-vote")
+      player_voted_list_tag = bucketSort(player_voted_list_tag,
+        $("ul.player-list li.player").length + 5, (x) ->
+          parseInt($(x).text()))
+
+      alert_text = for vote_tag in player_voted_list_tag
+        vote_count = $(vote_tag).text()
+        player_name = $(vote_tag).parent("li.player").find("span").text()
+        "（#{vote_count}票） #{player_name}"
+
+      alert """最大得票者が複数います。再投票してください。
+      #{alert_text.join("\n")}
+      """
+
     vote_list = $("ul.player-list p.player-vote")
     if vote_list.size() is 0
       alert("投票してから押してね")
       return false
 
-    before_vote = $(vote_list[0])
-    for vote in vote_list when parseInt($(vote).text()) > parseInt(before_vote.text())
-      before_vote = $(vote)
+    before_vote = $("<p>-1</p>")
+    duplicate_vote = -1
+    for vote in vote_list
+      if parseInt($(vote).text()) > parseInt(before_vote.text())
+        before_vote = $(vote)
+      else if parseInt($(vote).text()) is parseInt(before_vote.text())
+        duplicate_vote_count = parseInt($(vote).text())
+
+    if duplicate_vote_count is parseInt($(before_vote).text())
+      return revoteAlert()
+
     before_vote.parent("li.player").trigger "click"
+
 
   resetVote: =>
     $("ul.player-list li.player p").remove("p.player-vote")
@@ -471,6 +495,22 @@ reloadPlayerNo = ->
 
 isNumber = (value) ->
   not(isNaN(value))
+
+bucketSort = (list, max_number, toNumber) ->
+  bucket = {}
+  for i in [max_number..1]
+    bucket[i] = new Array()
+
+  for item in list
+    item_number = toNumber(item)
+    bucket[item_number].push(item)
+
+  list = []
+  for j in [max_number..1]
+    item_list = bucket[j]
+    for item in item_list
+      list.push(item)
+  list
 
 convertAllToHalf = (number_string) ->
   number_string = number_string.replace(/１/g, "1")
