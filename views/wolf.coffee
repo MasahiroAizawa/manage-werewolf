@@ -24,6 +24,8 @@ class @ManageWolf
     @setAddRole()
     @setEditRole()
 
+    @setSavePlayer()
+
     # NOTE: モーダルを消す動作は最後に動作させる
     @setButtons()
     @setMask()
@@ -83,6 +85,9 @@ class @ManageWolf
     $("li.role label.edit-role").bind "click", @editRole
     $("li.role label.remove-role").bind "click", @removeRole
     $("li.role label.finish-edit").bind "click", @finishEdit
+
+  setSavePlayer: ->
+    $("div#manage-modal button#save-player").bind "click", @savePlayer
 
   setMask: ->
     $("#mask").bind "click", @hidePhoto
@@ -433,6 +438,28 @@ class @ManageWolf
     role_row.find("input").addClass "hide"
     role_row.find("label.finish-edit").addClass "hide"
 
+  savePlayer: =>
+    manage_modal = $("div#manage-modal")
+    player_name = $(manage_modal.find("label.player-name-label")[0]).text()
+    player_image = manage_modal.find("img#player-image")?.attr("src")
+
+    error_message = ""
+    if not(player_name)? or player_name is "" or player_name is "クリックしてプレイヤー名を入力"
+      error_message += "プレイヤーの名前を入力してください。\n"
+    unless player_image?
+      error_message += "プレイヤーの画像を選択してください。"
+    if error_message isnt ""
+      return alert error_message
+
+    registered_image = localStorage.getItem(player_name)
+    console.log registered_image
+    if registered_image?
+      return unless confirm("既にこの名前で登録されていますが上書きしますか？")
+
+    localStorage.setItem(player_name, player_image)
+    manage_modal.find("div.image-right-menu").find("p").remove()
+    manage_modal.find("button#save-player").after("<span style=\"color:red;\">登録しました。</span>")
+
   hidePhoto: =>
     if @mask_remain
       @mask_remain = false
@@ -464,6 +491,7 @@ clearAddPlayerModal = ->
   modal.find("button#add-new-player").text("追加")
   modal.find("input.edit-player-no").removeAttr("value")
   modal.find("button#remove-player").addClass "hide"
+  modal.find("div.image-right-menu span").remove()
 
 createDragDropArea = ->
   """
