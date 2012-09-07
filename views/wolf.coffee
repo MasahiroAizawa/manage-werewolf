@@ -56,6 +56,7 @@ class @ManageWolf
   setManagePlayer: ->
     $("div.sidebar-operations button#manage-player").bind "click", @managePlayer
     $("div.sidebar-operations button#manage-end").bind "click", @managePlayerEnd
+    $("div.sidebar-operations button#manage-storage-user").bind "click", @manageStoragePlayer
 
   setManageModal: ->
     $("div#manage-modal div.modal-name label.player-name-label").bind "click", @editPlayerName
@@ -242,6 +243,7 @@ class @ManageWolf
     manage_mode = true
     $("div.sidebar-operations button#manage-player").addClass "hide"
     $("div.sidebar-operations button#manage-end").removeClass "hide"
+    $("div.sidebar-operations button#manage-storage-user").removeClass "hide"
 
     createAddPlayerTag = ->
       """
@@ -261,8 +263,12 @@ class @ManageWolf
     manage_mode = false
     $("div.sidebar-operations button#manage-player").removeClass "hide"
     $("div.sidebar-operations button#manage-end").addClass "hide"
+    $("div.sidebar-operations button#manage-storage-user").addClass "hide"
 
     $("li.add-player").remove()
+
+  manageStoragePlayer: ->
+    window.showModalDialog('/load_image', ["list"], "statuf:off;")
 
   removePlayer: =>
     modal = $("div#manage-modal")
@@ -485,7 +491,7 @@ class @ManageWolf
     manage_modal.find("button#save-player").after("<span style=\"color:red;\">登録しました。</span>")
 
   loadPlayer: =>
-    player_data = window.showModalDialog('/load_image')
+    player_data = window.showModalDialog('/load_image', ["load"], "status:off;")
 
     return unless player_data?
 
