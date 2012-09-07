@@ -7,6 +7,8 @@ class @ManageWolf
 
     @onloadSettings()
 
+    @setChangeTitle()
+
     @setImageZoomEvent()
     @setVoteResult()
     @setResetVote()
@@ -34,6 +36,11 @@ class @ManageWolf
 
   onloadSettings: ->
     @reloadMemberCount()
+
+  setChangeTitle: ->
+    $("div.container h2.page-title label.title-label").bind "click", @editTitle
+    $("div.container h2.page-title input.title-input").bind "focusout", @completeEditTitle
+    $("div.container h2.page-title input.title-input").bind "keydown", @keyDownCompleteEditTitle
 
   setImageZoomEvent: ->
     $("li.player").unbind "click"
@@ -298,11 +305,30 @@ class @ManageWolf
     label = manage_modal.find("label.player-name-label")
     editor = manage_modal.find("input.player-name-editor")
 
-    editor.attr("value", label.text())
+    switchLabelToEditor(label, editor)
 
-    label.addClass "hide"
-    editor.removeClass "hide"
-    editor.focus()
+  editTitle: ->
+    page_title = $("div.container h2.page-title")
+    label = page_title.find("label.title-label")
+    editor = page_title.find("input.title-input")
+
+    switchLabelToEditor(label, editor)
+
+  keyDownCompleteEditTitle: =>
+    if event.keyCode is 13
+      @completeEditTitle()
+
+  completeEditTitle: ->
+    page_title = $("div.container h2.page-title")
+    label = page_title.find("label.title-label")
+    editor = page_title.find("input.title-input")
+
+    if editor.attr("value") is ""
+      alert "ゲーム名は必要です"
+      editor.focus()
+      return false
+
+    switchEditorToLabel(editor, label)
 
   keyDownCompleteEditPlayerCall: =>
     if event.keyCode is 13
@@ -318,10 +344,7 @@ class @ManageWolf
       editor.focus()
       return false
 
-    label.text(editor.attr("value"))
-
-    editor.addClass "hide"
-    label.removeClass "hide"
+    switchEditorToLabel(editor, label)
 
   addNewPlayer: =>
     createPlayerTag = (name, data) ->
@@ -498,6 +521,21 @@ class @ManageWolf
     $("ul.player-list li.player p.player-vote").remove()
     for player_image in $("ul.player-list li.player img")
       $(player_image).attr("src", $(player_image).data("src"))
+
+
+
+switchLabelToEditor = (label, editor) ->
+  editor.attr("value", label.text())
+
+  label.addClass "hide"
+  editor.removeClass "hide"
+  editor.focus()
+
+switchEditorToLabel = (editor, label) ->
+  label.text(editor.attr("value"))
+
+  editor.addClass "hide"
+  label.removeClass "hide"
 
 clearAddPlayerModal = ->
   modal = $("div#manage-modal")

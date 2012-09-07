@@ -11,7 +11,10 @@
   </head>
   <body>
     <div class="container">
-      <h2 class="page-title">人狼管理アプリ プロトタイプ <%= version %></h2>
+      <h2 class="page-title">
+        <label class="title-label"><%= Date::today.year %>年<%= Date::today.month %>月<%= Date::today.day %>日の人狼</label>
+        <input class="title-input hide" type="text" size="45">
+      </h2>
       <h3 class="survive-player">
         <span id="total">１０</span>人中、<span id="dead">　５</span>人が死亡　残り<span id="rest">　５</span>人
       </h3>
@@ -75,7 +78,9 @@
         </div>
 
         <footer>
-          <h4>character images from <a href="http://www.wanpug.com" target="_blank">http://www.wanpug.com</a>
+          <h4>
+            人狼管理アプリ プロトタイプ <%= version %><br>
+            character images from <a href="http://www.wanpug.com" target="_blank">http://www.wanpug.com</a>
             effect images created by <a href="http://www.facebook.com/natsuki.sato.japan" target="_blank">Natsuki Sato</a>
             application created by <a href="http://www.facebook.com/aizawa.masahiro" target="_blank">Masahiro Aizawa</a></h4>
         </footer>
