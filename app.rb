@@ -9,12 +9,17 @@ require 'coffee-script'
 # for debug
 require 'pry'
 
-VERSION_NUMBER = 0.6
+VERSION_NUMBER = 0.59
 
 get '/' do
   @players = Player.create_players
 
   erb :index
+end
+
+get '/wolf.manifest' do
+  content_type "text/cache-manifest.manifest"
+  send_file "/wolf.manifest"
 end
 
 get '/load_image' do

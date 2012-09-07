@@ -1,0 +1,13 @@
+CACHE MANIFEST
+#v0.52
+
+CACHE:
+/
+/javascript/*
+/images/*
+/index.css
+/load_image
+/load.css
+
+NETWORK:
+
