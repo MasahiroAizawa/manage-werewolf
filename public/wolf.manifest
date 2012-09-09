@@ -1,13 +1,24 @@
 CACHE MANIFEST
-#v0.52
+#v0.6
 
 CACHE:
-/
-/javascript/*
-/images/*
+/javascript/jquery.js
+/javascript/wolf.js
+/javascript/image_upload.js
+/javascript/change_image.js
+/javascript/load_image.js
+
+/images/day-kill.png
+/images/night-kill.png
+/images/mob-human.png
+/images/mob-wolf.png
+
 /index.css
-/load_image
 /load.css
+
+/
+/load_image
+
 
 NETWORK:
 

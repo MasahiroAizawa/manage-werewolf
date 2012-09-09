@@ -20,12 +20,18 @@
       </h3>
       <div class="player-list">
         <ul class="player-list">
-          <% @players.each do |player| %>
-            <li id="player-<%= player.no %>" class="player">
-              <span><%= player.no %>:<%= player.name %><br></span>
-              <img id="player-img-<%= player.no %>" src="/images/<%= player.file %>" data-src="/images/<%= player.file %>" width="128" height="128">
-            </li>
-          <% end %>
+          <li id="player-01" class="player">
+            <span>01:もぶぞー<br></span>
+            <img id="player-img-01" src="/images/mob-human.png" data-src="/images/mob-human.png" width="128" height="128">
+          </li>
+          <li id="player-02" class="player">
+            <span>02:もぶすけ<br></span>
+            <img id="player-img-02" src="/images/mob-human.png" data-src="/images/mob-human.png" width="128" height="128">
+          </li>
+          <li id="player-03" class="player">
+            <span>03:がおきち<br></span>
+            <img id="player-img-03" src="/images/mob-wolf.png" data-src="/images/mob-wolf.png" width="128" height="128">
+          </li>
         </ul>
       </div>
       <div class="sidebar">
@@ -80,8 +86,7 @@
 
         <footer>
           <h4>
-            人狼管理アプリ プロトタイプ <%= version %><br>
-            character images from <a href="http://www.wanpug.com" target="_blank">http://www.wanpug.com</a>
+            人狼演出アプリ プロトタイプ <%= version %><br>
             effect images created by <a href="http://www.facebook.com/natsuki.sato.japan" target="_blank">Natsuki Sato</a>
             application created by <a href="http://www.facebook.com/aizawa.masahiro" target="_blank">Masahiro Aizawa</a></h4>
         </footer>
@@ -91,7 +96,7 @@
       <div id="modal" class="hide">
         <div>
           <div class="modal-name">
-            <span class="player-name">01:くまー</span>
+            <span class="player-name">01:もぶぞー</span>
             <span class="close">×</span>
           </div>
           <div class="left-menu">
@@ -100,7 +105,7 @@
             <button id="kill-cancel" type="button">やっぱり死んでない</button>
           </div>
           <div class="modal-image">
-            <img src="/images/bear.gif" width="300" height="300">
+            <img src="/images/mob-human.png" width="300" height="300">
             <input id="modal-id" type="hidden" value"">
           </div>
           <div class="right-menu">
