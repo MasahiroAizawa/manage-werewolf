@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/index.css">
     <script src="/javascript/jquery.js"></script>
     <script src="/javascript/image_upload.js"></script>
+    <script src="/javascript/load_image.js"></script>
     <script src="/javascript/wolf.js"></script>
     <script src="/javascript/change_image.js"></script>
   </head>
@@ -143,9 +144,20 @@
         </div>
       </div>
 
+      <div id="load-modal" class="hide">
+        <ul id="load-players">
+        </ul>
+        <div class="operation-buttons">
+          <button id="load-image">読み込む</button>
+          <button id="delete-image" class="hide">削除</button>
+          <button id="cancel-image">やめる</button>
+        </div>
+      </div>
+
       <script>
         $(function(){
           var w = new ManageWolf();
+        var l = new LoadImageDialog();
           var i = new ImageUploader($("div#manage-modal input#player-image-upload"), $("div#manage-modal div.uploaded-image"));
           onCancel = function(event) {
             if (event.preventDefault){

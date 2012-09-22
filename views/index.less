@@ -198,6 +198,42 @@ div.sidebar {
   }
 }
 
+div#load-modal {
+  position: absolute;
+  background: @modal-bg-color;
+  top: 150px;
+  left: 200px;
+  width: 650px;
+  height: 350px;
+  padding: 20px;
+  padding-top: 10px;
+  z-index: @modal-z-index;
+
+  ul#load-players {
+    li.load-player {
+      list-style-type: none;
+      float: left;
+      margin-right: 20px;
+      border: solid 1px;
+      padding: 5px;
+      cursor: pointer;
+
+      label {
+      }
+    }
+  }
+
+  div.operation-buttons {
+    clear: both;
+    text-align: center;
+
+    button {
+      margin-top: 20px;
+      font-size: large;
+    }
+  }
+}
+
 button {
   font-size: large;
   margin-top: 20px;

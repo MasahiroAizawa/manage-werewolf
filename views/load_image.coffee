@@ -13,13 +13,13 @@ class @LoadImageDialog
     $("button#cancel-image").bind "click", @cancelDialog
 
   setUtility: =>
-    $("li.load-player").bind "click", @checkLabel
+    $("div#load-modal li.load-player").bind "click", @checkLabel
 
   setDeletePlayer: =>
     $("button#delete-image").bind "click", @deleteImage
 
   loadDialog: ->
-    selected_item = $("input:radio:checked").parent("li.load-player")
+    selected_item = $("div#load-modal input:radio:checked").parent("li.load-player")
     player_name = selected_item.find("label").text()
     player_image = selected_item.find("img").attr("src")
 
@@ -27,11 +27,11 @@ class @LoadImageDialog
       name: player_name
       src: player_image
 
-    window.returnValue = player_data
-    window.close()
+    setReturnPlayer(player_data)
+    close()
 
   cancelDialog: ->
-    window.close()
+    close()
 
   checkLabel: ->
     target_radio = $(this).find("input:radio")
@@ -39,7 +39,7 @@ class @LoadImageDialog
     target_radio.attr("checked", not(checked))
 
   deleteImage: ->
-    selected_item = $("input:radio:checked").parent("li.load-player")
+    selected_item = $("div#load-modal input:radio:checked").parent("li.load-player")
     return alert_tag "削除対象を選択してください。" unless selected_item?
 
     key_name = selected_item.find("label").text()
@@ -57,7 +57,7 @@ class @LoadImageDialog
 
       $("ul#load-players").append(player_list_tag)
 
-    mode = window?.dialogArguments?[0]
+    mode = getMode()
 
     load_button = $("button#load-image")
     delete_button = $("button#delete-image")
@@ -89,4 +89,13 @@ alert_tag = (msg) ->
   $("div#content span.message").remove("span.message")
   $("div#content ul#load-players").before(tag)
 
+
+getMode = ->
+  window?.dialogArguments?[0]
+
+setReturnPlayer = (player_data) ->
+  window.returnValue = player_data
+
+close = ->
+  window.close()
 

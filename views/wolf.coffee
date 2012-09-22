@@ -268,7 +268,9 @@ class @ManageWolf
     $("li.add-player").remove()
 
   manageStoragePlayer: ->
-    window.showModalDialog('/load_image', ["list"], "statuf:off;")
+    user_agent = navigator.userAgent
+
+    callLoader(["list"])
 
   removePlayer: =>
     modal = $("div#manage-modal")
@@ -482,7 +484,6 @@ class @ManageWolf
       return alert error_message
 
     registered_image = localStorage.getItem(player_name)
-    console.log registered_image
     if registered_image?
       return unless confirm("既にこの名前で登録されていますが上書きしますか？")
 
@@ -491,7 +492,7 @@ class @ManageWolf
     manage_modal.find("button#save-player").after("<span style=\"color:red;\">登録しました。</span>")
 
   loadPlayer: =>
-    player_data = window.showModalDialog('/load_image', ["load"], "status:off;")
+    player_data = callLoader(["load"])
 
     return unless player_data?
 
@@ -585,6 +586,13 @@ reloadPlayerNo = ->
     $player.find("span").html("#{h(player_name)}<br>")
     $player.attr("id", "player-#{player_no_string}")
     $player.find("img").attr("id", "player-img-#{player_no_string}")
+
+callLoader = (args) ->
+  if false #user_agent =~ /iOS/
+    $("div#load-modal").removeClass "hide"
+    $("#mask").removeClass "hide"
+  else
+    window.showModalDialog('/load_image', args, "status:off;")
 
 isNumber = (value) ->
   not(isNaN(value))
