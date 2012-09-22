@@ -101,11 +101,11 @@ getMode = ->
 
 setReturnPlayer = (player_data) ->
   window.returnValue = player_data
-  if is_iOS
+  if is_iOS()
     window.w.loadPlayer()
 
 close = ->
-  if is_iOS
+  if is_iOS()
     mode = getMode()
     if mode is "list"
       $("#mask").addClass "hide"
