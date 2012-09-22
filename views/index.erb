@@ -156,8 +156,7 @@
 
       <script>
         $(function(){
-          var w = new ManageWolf();
-        var l = new LoadImageDialog();
+          window.w = new ManageWolf();
           var i = new ImageUploader($("div#manage-modal input#player-image-upload"), $("div#manage-modal div.uploaded-image"));
           onCancel = function(event) {
             if (event.preventDefault){

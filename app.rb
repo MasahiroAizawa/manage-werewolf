@@ -9,7 +9,7 @@ require 'coffee-script'
 # for debug
 require 'pry'
 
-VERSION_NUMBER = 0.61
+VERSION_NUMBER = 0.62
 
 get '/' do
   erb :index

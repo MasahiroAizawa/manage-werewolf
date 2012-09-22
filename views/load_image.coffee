@@ -48,6 +48,8 @@ class @LoadImageDialog
     selected_item.remove()
 
   loadImageStorage: =>
+    $("ul#load-players li.load-player").remove()
+
     end_index = localStorage.length - 1
     for i in [0..end_index]
       player_name = localStorage.key(i)
@@ -91,11 +93,26 @@ alert_tag = (msg) ->
 
 
 getMode = ->
-  window?.dialogArguments?[0]
+  dialog_arg = window?.dialogArguments?[0]
+  return dialog_arg if dialog_arg?
+
+  modal_arg = window.loader_mode[0]
+  modal_arg
 
 setReturnPlayer = (player_data) ->
   window.returnValue = player_data
+  if is_iOS
+    window.w.loadPlayer()
 
 close = ->
-  window.close()
+  if is_iOS
+    mode = getMode()
+    if mode is "list"
+      $("#mask").addClass "hide"
+    $("div#load-modal").addClass "hide"
+  else
+    window.close()
+
+is_iOS = ->
+  navigator.userAgent.match /iOS/
 
