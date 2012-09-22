@@ -114,5 +114,5 @@ close = ->
     window.close()
 
 is_iOS = ->
-  navigator.userAgent.match /iOS/
+  navigator.userAgent.match /iPhone|iPad/
 
