@@ -523,8 +523,9 @@ class @ManageWolf
       return false
 
     $("#mask").addClass "hide"
-    $("#modal").addClass "hide"
-    $("#manage-modal").addClass "hide"
+    $("div#modal").addClass "hide"
+    $("div#manage-modal").addClass "hide"
+    $("div#load-modal").addClass "hide"
 
   gameReset: =>
     $("ul.player-list li.player").find("img.kill-image").remove()
